@@ -8,8 +8,8 @@
 #include <optional>
 #include <vector>
 
-const int WIDTH = 1920;
-const int HEIGHT = 1080;
+const int WIDTH = 1440;
+const int HEIGHT = 810;
 
 const std::vector<const char*> validationLayers = {
 	"VK_LAYER_KHRONOS_validation"
