@@ -36,6 +36,12 @@ struct QueueFamilyIndices
 	}
 };
 
+struct SwapChainSupportDetails {
+	VkSurfaceCapabilitiesKHR capabilities;
+	std::vector<VkSurfaceFormatKHR> formats;
+	std::vector<VkPresentModeKHR> presentModes;
+};
+
 VkResult CreateDebugUtilsMessengerEXT(VkInstance instance, const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkDebugUtilsMessengerEXT* pDebugMessenger) {
 	auto func = (PFN_vkCreateDebugUtilsMessengerEXT)vkGetInstanceProcAddr(instance, "vkCreateDebugUtilsMessengerEXT");
 	if (func != nullptr) {
@@ -222,7 +228,13 @@ private:
 		QueueFamilyIndices indices = findQueueFamilies(device);
 		bool extensionsSupported = checkDeviceExtensionSupport(device);
 
-		return extensionsSupported && deviceProperties.deviceType == VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU && deviceFeatures.geometryShader && indices.isComplete();
+		bool swapChainAdequate = false;
+		if (extensionsSupported) {
+			SwapChainSupportDetails details = querySwapChainSupport(device);
+			swapChainAdequate = !details.formats.empty() && !details.presentModes.empty();
+		}
+
+		return extensionsSupported && swapChainAdequate && deviceProperties.deviceType == VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU && deviceFeatures.geometryShader && indices.isComplete();
 	}
 
 	QueueFamilyIndices findQueueFamilies(VkPhysicalDevice device) {
@@ -253,6 +265,27 @@ private:
 		}
 
 		return indices;
+	}
+
+	SwapChainSupportDetails querySwapChainSupport(VkPhysicalDevice device) {
+		SwapChainSupportDetails details;
+		vkGetPhysicalDeviceSurfaceCapabilitiesKHR(device, surface, &details.capabilities);
+
+		uint32_t formatCount = 0;
+		vkGetPhysicalDeviceSurfaceFormatsKHR(device, surface, &formatCount, nullptr);
+		if (formatCount != 0) {
+			details.formats.resize(formatCount);
+			vkGetPhysicalDeviceSurfaceFormatsKHR(device, surface, &formatCount, details.formats.data());
+		}
+
+		uint32_t presentModes = 0;
+		vkGetPhysicalDeviceSurfacePresentModesKHR(device, surface, &presentModes, nullptr);
+		if (presentModes != 0) {
+			details.presentModes.resize(presentModes);
+			vkGetPhysicalDeviceSurfacePresentModesKHR(device, surface, &presentModes, details.presentModes.data());
+		}
+
+		return details;
 	}
 
 	void pickPhysicalDevice() {
