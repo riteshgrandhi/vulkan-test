@@ -79,6 +79,9 @@ private:
 	VkQueue presentQueue;
 	VkSurfaceKHR surface;
 	VkSwapchainKHR swapChain;
+	std::vector<VkImage> swapChainImages;
+	VkExtent2D swapChainExtent;
+	VkFormat swapChainImageFormat;
 
 	void initWindow() {
 		glfwInit();
@@ -443,7 +446,14 @@ private:
 		if (vkCreateSwapchainKHR(device, &createInfo, nullptr, &swapChain) != VK_SUCCESS) {
 			throw std::runtime_error("failed to create swap chain!");
 		}
-}
+
+		vkGetSwapchainImagesKHR(device, swapChain, &imageCount, nullptr);
+		swapChainImages.resize(imageCount);
+		vkGetSwapchainImagesKHR(device, swapChain, &imageCount, swapChainImages.data());
+
+		swapChainExtent = extent;
+		swapChainImageFormat = surfaceFormat.format;
+	}
 
 	void initVulkan() {
 		createInstance();
@@ -461,9 +471,7 @@ private:
 	}
 
 	void cleanup() {
-
 		vkDestroySwapchainKHR(device, swapChain, nullptr);
-
 		vkDestroyDevice(device, nullptr);
 
 		if (enableValidationLayers) {
@@ -471,11 +479,9 @@ private:
 		}
 
 		vkDestroySurfaceKHR(instance, surface, nullptr);
-
 		vkDestroyInstance(instance, nullptr);
 
 		glfwDestroyWindow(window);
-
 		glfwTerminate();
 	}
 };
