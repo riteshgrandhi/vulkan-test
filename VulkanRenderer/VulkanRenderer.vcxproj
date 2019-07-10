@@ -115,6 +115,12 @@
       <AdditionalLibraryDirectories>C:\Users\WillstDu\Documents\Visual Studio 2017\Libraries\glfw-3.3.bin.WIN64\lib-vc2017;C:\Users\rigrandh\Documents\Visual Studio 2017\Libraries\glfw-3.3.bin.WIN64\lib-vc2017;C:\VulkanSDK\1.1.108.0\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>vulkan-1.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+      <Message>
+      </Message>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -157,6 +163,12 @@
       <AdditionalLibraryDirectories>C:\Users\rigrandh\Documents\Visual Studio 2017\Libraries\glfw-3.3.bin.WIN64\lib-vc2017;C:\VulkanSDK\1.1.108.0\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>vulkan-1.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+      <Message>
+      </Message>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />

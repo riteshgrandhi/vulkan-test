@@ -5,6 +5,14 @@ VisualStudioVersion = 15.0.28307.705
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VulkanRenderer", "VulkanRenderer\VulkanRenderer.vcxproj", "{200F162A-38B6-4510-AA86-95404C8396D1}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shaders", "Shaders", "{185BB286-D817-4512-BFC6-458C92520868}"
+	ProjectSection(SolutionItems) = preProject
+		shader.frag = shader.frag
+		shader.frag.spv = shader.frag.spv
+		shader.vert = shader.vert
+		shader.vert.spv = shader.vert.spv
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
